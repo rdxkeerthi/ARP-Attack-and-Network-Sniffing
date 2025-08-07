@@ -13,27 +13,56 @@ To explore network sniffing and ARP Attacks
 
 ## ARP Attacks:  
 ARP spoofing: A hacker sends fake ARP packets that link an attacker's MAC address with an IP of a computer already on the LAN. 
-Boot kali and Windows7 virtual machines.
-In windows 7 give the command arp -a
-## OUTPUT:
-![](1.png)
 
-From kali linux issue the command :
-sudo arpspoof -i eth0 -t <target system> <gateway>
-## OUTPUT:
-![](2.png)
+```
+arpspoof -i eth0 -t <victim_IP> <gateway_IP>
+```
+## Tools Commonly Used:
 
- dsniff:In Metasploit open the ftp console as below. Also you can try other ftp websites ftp.vim.org
-## OUTPUT:
-![](3.png)
+**ARP Spoofing:** arpspoof, ettercap, bettercap
 
-In Kali issue the following commands:
-sudo dsnifff
-## OUTPUT:
-![](4.png)
+**Sniffing:** wireshark, tcpdump, dsniff
+## Architecture Diagram
+```
+                     +-------------------+
+                     |   Attacker (Kali) |
+                     |  [ARP Spoof Tool] |
+                     +---------+---------+
+                               |
+               +---------------+----------------+
+               |                                |
+       +-------v-------+              +---------v--------+
+       | Victim Device |              | Gateway/Router   |
+       | (e.g., Laptop)|              | (Default Gateway)|
+       +---------------+              +------------------+
+               |                                |
+       ====== Normal ARP Traffic ===============|
+               |                                |
+               +---------> Internet             |
+                         (DNS, HTTP, etc.)      |
+                                                |
+                  [Start ARP Spoofing/Poisoning]
+                               |
+                               v
+               +-------------------------------+
+               |  Attacker becomes MITM        |
+               | (Man-in-the-Middle via ARP)   |
+               +-------------------------------+
+                               |
+                     [Sniff Packets Using]
+                 e.g., Wireshark, tcpdump, Ettercap
 
-Invoke the wireshark and examine the various menus  and controls of the tool:
-![](5.png)
+         +----------------------------------------------+
+         | Captured Info:                               |
+         |  - IP Addresses                              |
+         |  - DNS Requests                              |
+         |  - HTTP/HTTPS Data (if not encrypted)        |
+         |  - Credentials (if sent in plain text)       |
+         +----------------------------------------------+
+
+```
+## OUTPUT:
+
 
 ## RESULT:
 The kali linux tools for ARP Attack and Network Sniffing were identified successfully
